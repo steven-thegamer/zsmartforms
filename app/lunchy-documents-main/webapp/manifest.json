@@ -132,6 +132,17 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "DataFieldForAction::MainService.previewDocument": {
+                      "enableOnSelect": "single"
+                    },
+                    "DataFieldForAction::MainService.downloadDocument": {
+                      "enableOnSelect": "single"
+                    },
+                    "DataFieldForAction::MainService.sendEmail": {
+                      "enableOnSelect": "multi"
+                    }
                   }
                 }
               }

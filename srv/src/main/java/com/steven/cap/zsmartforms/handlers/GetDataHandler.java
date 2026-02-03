@@ -63,73 +63,24 @@ public class GetDataHandler {
         NodeList likpList = document.getElementsByTagName("LIKP");
         if (likpList.getLength() > 0) {
             resultMap.put("HEADER", likpList);
-            /* 
-            for(int i = 0; i < likpList.getLength(); i++) {
-                Element likp = (Element) likpList.item(i);
-                System.out.println("VBELN  : " + getTagValue(likp, "VBELN"));
-                System.out.println("INCO1  : " + getTagValue(likp, "INCO1"));
-                System.out.println("INCO2  : " + getTagValue(likp, "INCO2"));
-                System.out.println("ROUTE  : " + getTagValue(likp, "ROUTE"));
-                System.out.println("LFDAT  : " + getTagValue(likp, "LFDAT"));
-                System.out.println("WADAT  : " + getTagValue(likp, "WADAT"));
-                System.out.println("WAUHR  : " + getTagValue(likp, "WAUHR"));
-                System.out.println("KUNAG  : " + getTagValue(likp, "KUNAG"));
-                System.out.println("KUNNR  : " + getTagValue(likp, "KUNNR"));
-                System.out.println("-----");
-            }
-            */
         }
     
         // Read ITEM / LIPS
         NodeList lipsList = document.getElementsByTagName("LIPS");
         if (lipsList.getLength() > 0) {
             resultMap.put("ITEMS", lipsList);
-            /*
-            for(int i = 0; i < lipsList.getLength(); i++) {
-                Element lips = (Element) lipsList.item(i);
-                System.out.println("VBELN  : " + getTagValue(lips, "VBELN"));
-                System.out.println("POSNR  : " + getTagValue(lips, "POSNR"));
-                System.out.println("MATNR  : " + getTagValue(lips, "MATNR"));
-                System.out.println("MTART  : " + getTagValue(lips, "MTART"));
-                System.out.println("ARKTX  : " + getTagValue(lips, "ARKTX"));
-                System.out.println("LFIMG  : " + getTagValue(lips, "LFIMG"));
-                System.out.println("MEINS  : " + getTagValue(lips, "MEINS"));
-                System.out.println("LGMNG  : " + getTagValue(lips, "LGMNG"));
-                System.out.println("-----");
-            }
-            */
         }
 
         // Read Material Type / T134T
         NodeList t134tList = document.getElementsByTagName("T134T");
         if (t134tList.getLength() > 0) {
             resultMap.put("MATERIAL_TYPES", t134tList);
-            /* 
-            for(int i = 0; i < t134tList.getLength(); i++) {
-                Element t134t = (Element) t134tList.item(i);
-                System.out.println("MTART  : " + getTagValue(t134t, "MTART"));
-                System.out.println("MTBEZ  : " + getTagValue(t134t, "MTBEZ"));
-                System.out.println("-----");
-            }
-            */
         }
 
         // Read Customer / KNA1
         NodeList kna1List = document.getElementsByTagName("KNA1");
         if (kna1List.getLength() > 0) {
             resultMap.put("CUSTOMERS", kna1List);
-            /*
-            for(int i = 0; i < kna1List.getLength(); i++) {
-                Element kna1 = (Element) kna1List.item(i);
-                System.out.println("KUNNR  : " + getTagValue(kna1, "KUNNR"));
-                System.out.println("NAME1  : " + getTagValue(kna1, "NAME1"));
-                System.out.println("LAND1  : " + getTagValue(kna1, "LAND1"));
-                System.out.println("TELF1  : " + getTagValue(kna1, "TELF1"));
-                System.out.println("PSTLZ  : " + getTagValue(kna1, "PSTLZ"));
-                System.out.println("STRAS  : " + getTagValue(kna1, "STRAS"));
-                System.out.println("-----");
-            }
-            */
         }
 
         return resultMap;

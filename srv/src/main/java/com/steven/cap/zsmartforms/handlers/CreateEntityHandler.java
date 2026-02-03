@@ -1,5 +1,6 @@
 package com.steven.cap.zsmartforms.handlers;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -7,11 +8,12 @@ import java.util.Locale;
 
 import cds.gen.db.entity.customer.Customer;
 import cds.gen.db.entity.header.Header;
+import cds.gen.db.entity.item.Item;
 import cds.gen.db.entity.materialtype.MaterialType;
 
 public class CreateEntityHandler {
 
-    Header createDocument(String documentNumber,
+    public static Header createDocument(String documentNumber,
                         String incoterms1,
                         String incoterms2,
                         String route,
@@ -34,7 +36,7 @@ public class CreateEntityHandler {
         return newDocument;
     }
 
-    LocalDate parseDate(String dateString) {
+    static LocalDate parseDate(String dateString) {
         if ("0000-00-00".equals(dateString)) {
             return null;
         }
@@ -43,17 +45,34 @@ public class CreateEntityHandler {
         return date;
     }
 
-    LocalTime parseTime(String timeString) {
+    static LocalTime parseTime(String timeString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ENGLISH);
         LocalTime time = LocalTime.parse(timeString, formatter);
         return time;
     }
 
-    void createDocumentItems() {
-
+    public static Item createDocumentItems(String headerDocumentNumber,
+                            String itemNumber,
+                            String material,
+                            String materialTypeMaterialType,
+                            String quantityDeliveredSales,
+                            String quantityDeliveredStockKeeping,
+                            String shortText,
+                            String uom) {
+        Item newItem = Item.create();
+        newItem.setHeaderDocumentNumber(headerDocumentNumber);
+        newItem.setItemNumber(itemNumber);
+        newItem.setMaterial(material);
+        newItem.setMaterialTypeLanguageCode("EN");
+        newItem.setMaterialTypeMaterialType(materialTypeMaterialType);
+        newItem.setQuantityDeliveredSales(new BigDecimal(quantityDeliveredSales));
+        newItem.setQuantityDeliveredStockKeeping(new BigDecimal(quantityDeliveredStockKeeping));
+        newItem.setShortText(shortText);
+        newItem.setUom(uom);
+        return newItem;
     }
 
-    MaterialType createMaterialType(String materialType, String description) {
+    public static MaterialType createMaterialType(String materialType, String description) {
         MaterialType newMaterialType = MaterialType.create();
         newMaterialType.setLanguageCode("EN");
         newMaterialType.setMaterialType(materialType);
@@ -61,7 +80,7 @@ public class CreateEntityHandler {
         return newMaterialType;
     }
 
-    Customer createCustomer(String customerNumber, 
+    public static Customer createCustomer(String customerNumber, 
                         String name,
                         String phoneNumber,
                         String postalCode,

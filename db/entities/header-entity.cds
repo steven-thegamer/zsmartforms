@@ -9,36 +9,35 @@ entity Header {
     key documentNumber : String(10);
     incoterms1 : String(3);
     incoterms2 : String(28);
-    incoterms : String = incoterms1 + ' ' + incoterms2;
+    incoterms : String = incoterms1 || ' ' || incoterms2;
     route : String(6);
     deliveryDate : Date;
     goodsIssueDate : Date;
     goodsIssueTime : Time;
     soldToParty : Association to customer.Customer;
     shipToParty : Association to customer.Customer;
-    status : types.DocumentStatus;
+    status : types.DocumentStatus = #Created stored;
     document : Association to document.Document;
     items : Composition of many item.Item on items.header = $self;
 
-    @readonly deliveryStatus : types.DeliveryStatus 
-    @assert : (case
-        when goodsIssueDate <= deliveryDate then 'On Time'
-        when goodsIssueDate > deliveryDate then 'Delayed'
-        else 'Pending'
-    end);
+    deliveryStatus : types.DeliveryStatus =
+    (case
+        when goodsIssueDate <= deliveryDate then #OnTime
+        when goodsIssueDate > deliveryDate then #Delayed
+        else #Pending
+    end) stored;
 
-    @readonly deliveryStatusCriticality : Integer
-    @assert : (case
-        when deliveryStatus = 'On Time' then 1
-        when deliveryStatus = 'Delayed' then 3
+    deliveryStatusCriticality : Integer =
+    (case
+        when goodsIssueDate <= deliveryDate then 3
+        when goodsIssueDate > deliveryDate then 1
         else 2
-    end);
+    end) stored;
 
-    @readonly statusCriticality : Integer
-    @assert : (case
-        when status = 'Printed' then 2
-        when status = 'Emailed' then 3
+    statusCriticality : Integer =
+    (case
+        when status = #Printed then 2
+        when status = #Emailed then 3
         else 0
-    end);
-
+    end) stored;
 }

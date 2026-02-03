@@ -99,6 +99,7 @@ annotate service.lunchyDocumentHeaders with @(
             Value : status,
             Label : '{i18n>Status}',
             Criticality : statusCriticality,
+            CriticalityRepresentation : #WithIcon,
         },
         {
             $Type : 'UI.DataFieldForAction',
