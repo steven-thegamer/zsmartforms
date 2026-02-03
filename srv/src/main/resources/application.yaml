@@ -1,0 +1,18 @@
+
+---
+spring:
+  config.activate.on-profile: default
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:../db/db.sqlite
+    hikari:
+      max-lifetime: 0
+      maximum-pool-size: 1
+  sql:
+    init:
+      mode: never
+      platform: sqlite
+      schema-locations: classpath:schema-sqlite.sql
+  web.resources.static-locations: file:./app/
+cds:
+  data-source.auto-config.enabled: false

@@ -1,0 +1,182 @@
+{
+  "_version": "1.81.0",
+  "sap.app": {
+    "id": "lunchdocumentsadmin",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.20.1",
+      "toolsId": "15fb15a5-8bdc-4d65-9a57-0f817b5f7ea5"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/AdminService/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "documents-admin": {
+          "semanticObject": "documents",
+          "action": "admin",
+          "title": "{{documents-admin.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.144.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "lunchdocumentsadmin.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "lunchyDocumentHeadersList",
+          "target": "lunchyDocumentHeadersList"
+        },
+        {
+          "pattern": "lunchyDocumentHeaders({key}):?query:",
+          "name": "lunchyDocumentHeadersObjectPage",
+          "target": "lunchyDocumentHeadersObjectPage"
+        },
+        {
+          "pattern": "lunchyDocumentHeaders({key})/items({key2}):?query:",
+          "name": "lunchyDocumentItemsObjectPage",
+          "target": "lunchyDocumentItemsObjectPage"
+        }
+      ],
+      "targets": {
+        "lunchyDocumentHeadersList": {
+          "type": "Component",
+          "id": "lunchyDocumentHeadersList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/lunchyDocumentHeaders",
+              "variantManagement": "Page",
+              "navigation": {
+                "lunchyDocumentHeaders": {
+                  "detail": {
+                    "route": "lunchyDocumentHeadersObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "lunchyDocumentHeadersObjectPage": {
+          "type": "Component",
+          "id": "lunchyDocumentHeadersObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/lunchyDocumentHeaders",
+              "navigation": {
+                "items": {
+                  "detail": {
+                    "route": "lunchyDocumentItemsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "lunchyDocumentItemsObjectPage": {
+          "type": "Component",
+          "id": "lunchyDocumentItemsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/lunchyDocumentHeaders/items"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  },
+  "sap.fe": {
+    "app": {
+      "enableLazyLoading": true
+    }
+  }
+}
