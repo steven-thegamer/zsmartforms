@@ -25,8 +25,6 @@ import cds.gen.db.entity.materialtype.MaterialType;
 import cds.gen.db.entity.materialtype.MaterialType_;
 import cds.gen.mainservice.MainService_;
 
-import com.steven.cap.zsmartforms.handlers.CreateEntityHandler;
-
 @Component
 @ServiceName(MainService_.CDS_NAME)
 public class MainServiceGetDataHandler implements EventHandler {

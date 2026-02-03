@@ -85,5 +85,35 @@ public class GetDataHandler {
 
         return resultMap;
     }
-    
+   
+    public static String getSmartForms(String documentNumber) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = null;
+        try {
+            String url = "http://handhana01.hand-china.com:8050/sap/z47818_cap_sfrm?sap-client=300";
+            
+            // Add Basic Authentication
+            String username = "47818";
+            String password = "Handhand@123";
+            String auth = username + ":" + password;
+            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Basic " + encodedAuth);
+            String jsonInputString = "{\"VBELN\": \"" + documentNumber + "\"}";
+            
+            HttpEntity<String> entity = new HttpEntity<>(jsonInputString, headers);
+            response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceException("Failed to fetch data from external service: " + e.getMessage());
+        }
+        
+        if (response == null || !response.getStatusCode().is2xxSuccessful()) {
+            throw new ServiceException("Invalid response from external service");
+        }
+
+        return response.getBody();
+    }
 }

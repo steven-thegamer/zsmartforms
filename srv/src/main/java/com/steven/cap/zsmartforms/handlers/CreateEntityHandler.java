@@ -1,5 +1,6 @@
 package com.steven.cap.zsmartforms.handlers;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import cds.gen.db.entity.customer.Customer;
+import cds.gen.db.entity.document.Document;
 import cds.gen.db.entity.header.Header;
 import cds.gen.db.entity.item.Item;
 import cds.gen.db.entity.materialtype.MaterialType;
@@ -94,5 +96,14 @@ public class CreateEntityHandler {
         return newCustomer;
     }
 
+    public static Document createDocument(String documentNumber,
+                                        InputStream documentData) {
+        Document newDocument = Document.create();
+        newDocument.setHeaderDocumentNumber(documentNumber);
+        String documentName = "lunchyDocument_" + documentNumber;
+        newDocument.setName(documentName);
+        newDocument.setDocumentData(documentData);
+        return newDocument;
+    }
 
 }
