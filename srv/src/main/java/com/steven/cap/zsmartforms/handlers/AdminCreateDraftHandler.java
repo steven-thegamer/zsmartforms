@@ -1,7 +1,6 @@
 package com.steven.cap.zsmartforms.handlers;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Insert;
@@ -15,9 +14,7 @@ import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
 
-import cds.gen.adminservice.AdminService;
 import cds.gen.adminservice.AdminService_;
-import cds.gen.adminservice.LunchyDocumentHeaders;
 import cds.gen.adminservice.LunchyDocumentHeadersCreateDraftContext;
 import cds.gen.adminservice.LunchyDocumentHeaders_;
 import cds.gen.db.entity.header.Header;

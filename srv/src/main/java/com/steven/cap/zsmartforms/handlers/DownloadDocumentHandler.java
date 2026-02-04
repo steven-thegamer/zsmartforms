@@ -43,8 +43,6 @@ public class DownloadDocumentHandler implements EventHandler {
 
     @On(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void onDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
-        // Example logic for handling the download document event
-        
         LunchyDocumentHeaders selectedDocument = db.run(context.getCqn()).single(LunchyDocumentHeaders.class);
         String selectedDocumentNumber = selectedDocument.getDocumentNumber();
         System.out.println("On downloading document for document number: " + selectedDocumentNumber);
