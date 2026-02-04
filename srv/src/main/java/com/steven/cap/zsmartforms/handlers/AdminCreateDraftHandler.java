@@ -5,11 +5,8 @@ import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
-import com.sap.cds.services.draft.DraftNewEventContext;
 import com.sap.cds.services.draft.DraftService;
 import com.sap.cds.services.handler.EventHandler;
-import com.sap.cds.services.handler.annotations.After;
-import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
@@ -46,21 +43,4 @@ public class AdminCreateDraftHandler implements EventHandler {
         newHeader.setDocumentNumber(newDocumentNumber);
         return adminService.newDraft(Insert.into(LunchyDocumentHeaders_.CDS_NAME).entry(newHeader)).single(Header.class);
     }
-
-
-    @Before(entity = LunchyDocumentHeaders_.CDS_NAME, event = DraftService.EVENT_DRAFT_NEW)
-    void beforeCreateDraft(DraftNewEventContext context) {
-        
-    }
-
-    @On(entity = LunchyDocumentHeaders_.CDS_NAME, event = DraftService.EVENT_DRAFT_NEW)
-    void onCreateDraft(DraftNewEventContext context) {
-        System.out.println(context);
-    }
-
-    @After(entity = LunchyDocumentHeaders_.CDS_NAME, event = DraftService.EVENT_DRAFT_NEW)
-    void afterCreateDraft(DraftNewEventContext context) {
-        System.out.println(context);
-    }
-
 }

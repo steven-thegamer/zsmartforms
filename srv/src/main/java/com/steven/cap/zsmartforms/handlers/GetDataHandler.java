@@ -28,13 +28,11 @@ public class GetDataHandler {
     private static final String username = "47818";
     private static final String password = "Handhand@123";
 
-    @SuppressWarnings("null")
     public static Map<String,NodeList> getDataFromDM4System() throws ParserConfigurationException, SAXException, IOException {
         Map<String,NodeList> resultMap = new java.util.HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = null;
         try {            
-            // Add Basic Authentication
             String auth = username + ":" + password;
             String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
             
@@ -49,36 +47,38 @@ public class GetDataHandler {
             throw new ServiceException("Failed to fetch data from external service: " + e.getMessage());
         }
         
+        // Null check ensures response is not null before calling getStatusCode()
         if (response == null || !response.getStatusCode().is2xxSuccessful()) {
             throw new ServiceException("Invalid response from external service");
         }
 
+        // response.getBody() could be null - add null check
         String resultOutput = response.getBody();
+        if (resultOutput == null || resultOutput.isEmpty()) {
+            throw new ServiceException("Empty response body from external service");
+        }
+        
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         InputSource inputSource = new InputSource(new StringReader(resultOutput));
         Document document = builder.parse(inputSource);
         document.getDocumentElement().normalize();
 
-        // Read HEADER / LIKP
         NodeList likpList = document.getElementsByTagName("LIKP");
         if (likpList.getLength() > 0) {
             resultMap.put("HEADER", likpList);
         }
     
-        // Read ITEM / LIPS
         NodeList lipsList = document.getElementsByTagName("LIPS");
         if (lipsList.getLength() > 0) {
             resultMap.put("ITEMS", lipsList);
         }
 
-        // Read Material Type / T134T
         NodeList t134tList = document.getElementsByTagName("T134T");
         if (t134tList.getLength() > 0) {
             resultMap.put("MATERIAL_TYPES", t134tList);
         }
 
-        // Read Customer / KNA1
         NodeList kna1List = document.getElementsByTagName("KNA1");
         if (kna1List.getLength() > 0) {
             resultMap.put("CUSTOMERS", kna1List);
@@ -91,7 +91,6 @@ public class GetDataHandler {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = null;
         try {            
-            // Add Basic Authentication
             String auth = username + ":" + password;
             String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
             
@@ -111,8 +110,13 @@ public class GetDataHandler {
             throw new ServiceException("Invalid response from external service");
         }
 
-        byte[] responseBytes = response.getBody().getBytes(StandardCharsets.UTF_8);
-
-        return new String(responseBytes);
+        // response.getBody() could be null - add null check before encoding
+        String body = response.getBody();
+        if (body == null) {
+            throw new ServiceException("Empty response body from external service");
+        }
+        
+        byte[] responseBytes = body.getBytes(StandardCharsets.UTF_8);
+        return new String(responseBytes, StandardCharsets.UTF_8);
     }
 }

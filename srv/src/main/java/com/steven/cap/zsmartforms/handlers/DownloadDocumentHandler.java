@@ -71,7 +71,6 @@ public class DownloadDocumentHandler implements EventHandler {
 
     @After(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void afterDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
-        // Example logic for handling the download document event
         System.out.println("After downloading document for context: " + context.getCqn());
 
         Result result = db.run(context.getCqn());
@@ -81,8 +80,6 @@ public class DownloadDocumentHandler implements EventHandler {
             System.out.println("Updating status to PRINTED for document number: " + documentNumber);
             updateHeaderStatus.updateStatusToPrinted(documentNumber, db);
         });
-
-        //updateHeaderStatus.updateStatusToPrinted(selectedDocumentNumber, db);
     }
 
 
