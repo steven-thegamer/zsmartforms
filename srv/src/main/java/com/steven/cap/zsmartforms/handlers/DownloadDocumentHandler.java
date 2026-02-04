@@ -10,6 +10,9 @@ import java.nio.charset.StandardCharsets;
 
 import org.springframework.stereotype.Component;
 
+import com.sap.cds.Result;
+import com.sap.cds.ql.Select;
+import com.sap.cds.ql.Update;
 import com.sap.cds.ql.Upsert;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.After;
@@ -19,10 +22,19 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
 
 import cds.gen.mainservice.LunchyDocumentHeadersDownloadDocumentContext;
+import cds.gen.mainservice.LunchyDocumentHeaders_;
 import cds.gen.mainservice.MainService_;
+import cds.gen.db.entity.document.Document;
 import cds.gen.db.entity.document.Document_;
+import cds.gen.db.entity.header.Header;
+import cds.gen.db.entity.header.Header_;
+import cds.gen.db.types.DocumentStatus;
 import cds.gen.mainservice.LunchyDocumentHeaders;
 
+import java.util.Base64;
+
+import javax.swing.JFileChooser;
+import com.steven.cap.zsmartforms.handlers.updateHeaderStatus;
 @Component
 @ServiceName(MainService_.CDS_NAME)
 public class DownloadDocumentHandler implements EventHandler {
@@ -45,11 +57,12 @@ public class DownloadDocumentHandler implements EventHandler {
         // Example logic for handling the download document event
         
         LunchyDocumentHeaders selectedDocument = db.run(context.getCqn()).single(LunchyDocumentHeaders.class);
-        System.out.println("On downloading document for document number: " + selectedDocument.getDocumentNumber());
-        String documentData = GetDataHandler.getSmartForms(selectedDocument.getDocumentNumber());
+        String selectedDocumentNumber = selectedDocument.getDocumentNumber();
+        System.out.println("On downloading document for document number: " + selectedDocumentNumber);
+        String documentData = GetDataHandler.getSmartForms(selectedDocumentNumber);
         
         InputStream inputStream = new ByteArrayInputStream(documentData.getBytes(StandardCharsets.ISO_8859_1));
-        
+
         File destinationFile = new File("C:\\Users\\IT\\Downloads\\" + selectedDocument.getDocumentNumber() + ".pdf");
         try (FileOutputStream fileOutputStream = new FileOutputStream(destinationFile)) {
             byte[] buffer = new byte[1024];
@@ -62,7 +75,9 @@ public class DownloadDocumentHandler implements EventHandler {
             e.printStackTrace();
         }
         
-        db.run(Upsert.into(Document_.CDS_NAME).entry(CreateEntityHandler.createDocument(selectedDocument.getDocumentNumber(), inputStream)));
+        db.run(Upsert.into(Document_.CDS_NAME).entry(CreateEntityHandler.createDocument(selectedDocumentNumber, inputStream)));
+
+        // updateHeaderStatus.updateStatusToPrinted(selectedDocumentNumber, db);
 
         context.setCompleted();
 
@@ -71,7 +86,17 @@ public class DownloadDocumentHandler implements EventHandler {
     @After(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME)
     public void afterDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
         // Example logic for handling the download document event
-        System.out.println("After downloading document");
+        System.out.println("After downloading document for context: " + context.getCqn());
+
+        Result result = db.run(context.getCqn());
+
+        result.forEach(t -> {
+            String documentNumber = (String) t.get("documentNumber");
+            System.out.println("Updating status to PRINTED for document number: " + documentNumber);
+            updateHeaderStatus.updateStatusToPrinted(documentNumber, db);
+        });
+
+        //updateHeaderStatus.updateStatusToPrinted(selectedDocumentNumber, db);
     }
 
 

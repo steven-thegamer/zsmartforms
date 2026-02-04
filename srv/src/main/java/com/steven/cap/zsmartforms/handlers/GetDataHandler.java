@@ -2,6 +2,7 @@ package com.steven.cap.zsmartforms.handlers;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
@@ -23,17 +24,17 @@ import com.sap.cds.services.ServiceException;
 
 public class GetDataHandler {
 
+    private static final String URL = "http://handhana01.hand-china.com:8050/sap/z47818_cap_sfrm?sap-client=300";
+    private static final String username = "47818";
+    private static final String password = "Handhand@123";
+
     @SuppressWarnings("null")
     public static Map<String,NodeList> getDataFromDM4System() throws ParserConfigurationException, SAXException, IOException {
         Map<String,NodeList> resultMap = new java.util.HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = null;
-        try {
-            String url = "http://handhana01.hand-china.com:8050/sap/z47818_cap_sfrm?sap-client=300";
-            
+        try {            
             // Add Basic Authentication
-            String username = "47818";
-            String password = "Handhand@123";
             String auth = username + ":" + password;
             String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
             
@@ -41,7 +42,7 @@ public class GetDataHandler {
             headers.set("Authorization", "Basic " + encodedAuth);
             
             HttpEntity<String> entity = new HttpEntity<>(headers);
-            response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            response = restTemplate.exchange(URL, HttpMethod.GET, entity, String.class);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,12 +90,8 @@ public class GetDataHandler {
     public static String getSmartForms(String documentNumber) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = null;
-        try {
-            String url = "http://handhana01.hand-china.com:8050/sap/z47818_cap_sfrm?sap-client=300";
-            
+        try {            
             // Add Basic Authentication
-            String username = "47818";
-            String password = "Handhand@123";
             String auth = username + ":" + password;
             String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
             
@@ -103,7 +100,7 @@ public class GetDataHandler {
             String jsonInputString = "{\"VBELN\": \"" + documentNumber + "\"}";
             
             HttpEntity<String> entity = new HttpEntity<>(jsonInputString, headers);
-            response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            response = restTemplate.exchange(URL, HttpMethod.POST, entity, String.class);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,6 +111,8 @@ public class GetDataHandler {
             throw new ServiceException("Invalid response from external service");
         }
 
-        return response.getBody();
+        byte[] responseBytes = response.getBody().getBytes(StandardCharsets.UTF_8);
+
+        return new String(responseBytes);
     }
 }
