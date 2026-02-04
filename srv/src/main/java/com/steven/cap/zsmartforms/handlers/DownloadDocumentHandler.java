@@ -49,25 +49,19 @@ public class DownloadDocumentHandler implements EventHandler {
         String selectedDocumentNumber = selectedDocument.getDocumentNumber();
         System.out.println("On downloading document for document number: " + selectedDocumentNumber);
         String documentData = GetDataHandler.getSmartForms(selectedDocumentNumber);
-        
         InputStream inputStream = new ByteArrayInputStream(documentData.getBytes(StandardCharsets.ISO_8859_1));
-
         File destinationFile = new File("C:\\Users\\IT\\Downloads\\" + selectedDocument.getDocumentNumber() + ".pdf");
         try (FileOutputStream fileOutputStream = new FileOutputStream(destinationFile)) {
             byte[] buffer = new byte[1024];
             int bytesRead;
             BufferedInputStream bis = new BufferedInputStream(inputStream);
-            while ((bytesRead = bis.read(buffer)) != -1) {
-                fileOutputStream.write(buffer, 0, bytesRead);
-            }
+            while ((bytesRead = bis.read(buffer)) != -1) fileOutputStream.write(buffer, 0, bytesRead);
         } catch (IOException e) {
             e.printStackTrace();
         }
         
-        db.run(Upsert.into(LunchyDocumentDocuments_.CDS_NAME).entry(CreateEntityHandler.createDocument(selectedDocumentNumber, inputStream)));
-
-        // updateHeaderStatus.updateStatusToPrinted(selectedDocumentNumber, db);
-
+        db.run(Upsert.into(LunchyDocumentDocuments_.CDS_NAME)
+        .entry(CreateEntityHandler.createDocument(selectedDocumentNumber, inputStream)));
         context.setCompleted();
 
     }

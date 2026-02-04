@@ -123,7 +123,7 @@ annotate service.lunchyDocumentHeaders with @(
             },
             {
                 $Type : 'UI.DataField',
-                Value : soldToParty.CustomerNumber,
+                Value : soldToParty_CustomerNumber,
                 Label : '{i18n>Customernumber}',
             },
             {
@@ -158,7 +158,7 @@ annotate service.lunchyDocumentHeaders with @(
             },
             {
                 $Type : 'UI.DataField',
-                Value : shipToParty.CustomerNumber,
+                Value : shipToParty_CustomerNumber,
                 Label : '{i18n>Customernumber}',
             },
             {
@@ -259,13 +259,8 @@ annotate service.lunchyDocumentItems with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : materialType,
+            Value : materialType_materialType,
             Label : '{i18n>MaterialType}',
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : materialTypeDescription,
-            Label : '{i18n>MaterialTypeDescription}',
         },
         {
             $Type : 'UI.DataField',

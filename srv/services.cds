@@ -14,7 +14,10 @@ service MainService {
 
 service AdminService {
     @odata.draft.enabled
-    entity lunchyDocumentHeaders as projection on index.Headers;
+    @Common.DraftRoot.NewAction: 'AdminService.createDraft'
+    entity lunchyDocumentHeaders as projection on index.Headers actions {
+        action createDraft(in: many $self) returns lunchyDocumentHeaders;
+    };
     entity lunchyDocumentItems as projection on index.Items;
     entity lunchyDocumentDocuments as projection on index.Documents;
     entity lunchyDocumentCustomers as projection on index.Customers;
