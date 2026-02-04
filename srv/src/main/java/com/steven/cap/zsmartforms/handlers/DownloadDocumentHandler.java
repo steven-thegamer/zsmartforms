@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.sap.cds.Result;
 import com.sap.cds.ql.Upsert;
+import com.sap.cds.services.ServiceException;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.After;
 import com.sap.cds.services.handler.annotations.Before;
@@ -39,6 +40,10 @@ public class DownloadDocumentHandler implements EventHandler {
     public void beforeDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
         // Example logic for handling the download document event
         System.out.println("Before downloading document");
+        LunchyDocumentHeaders selectedDocument = db.run(context.getCqn()).single(LunchyDocumentHeaders.class);
+        if(selectedDocument.getDocumentNumber().startsWith("CAP")){
+            throw new ServiceException("This is a custom document made in SAP CAP! This doesn't exist in the SAP System!");
+        }
     }
 
     @On(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)

@@ -4,7 +4,6 @@ service MainService {
     entity lunchyDocumentHeaders as projection on index.Headers
     actions {
         action downloadDocument();
-        action sendEmail(toEmailAddress : String);
     };
     entity lunchyDocumentItems as projection on index.Items;
     entity lunchyDocumentDocuments as projection on index.Documents;

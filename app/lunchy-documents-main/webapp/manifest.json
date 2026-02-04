@@ -136,9 +136,6 @@
                   "actions": {
                     "DataFieldForAction::MainService.downloadDocument": {
                       "enableOnSelect": "single"
-                    },
-                    "DataFieldForAction::MainService.sendEmail": {
-                      "enableOnSelect": "multi"
                     }
                   }
                 }
