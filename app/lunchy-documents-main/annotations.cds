@@ -204,6 +204,7 @@ annotate service.lunchyDocumentHeaders with @(
             },
         ],
     },
+    UI.DeleteHidden : true,
 );
 
 annotate service.lunchyDocumentHeaders with {
@@ -287,13 +288,8 @@ annotate service.lunchyDocumentItems with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : materialType,
+            Value : materialType_materialType,
             Label : '{i18n>MaterialType}',
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : materialTypeDescription,
-            Label : '{i18n>MaterialTypeDescription}',
         },
         {
             $Type : 'UI.DataField',

@@ -91,6 +91,7 @@ public class MainServiceGetDataHandler implements EventHandler {
                         getTagValue(materialType, "MTART"),
                         getTagValue(materialType, "MTBEZ")
                     );
+                    listOfMaterialTypes.add(newMaterialType);
                 }
                 db.run(Upsert.into(MaterialType_.CDS_NAME).entries(listOfMaterialTypes));
             }
