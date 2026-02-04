@@ -118,13 +118,13 @@ annotate service.lunchyDocumentHeaders with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Value : soldToParty.Country,
-                Label : '{i18n>Country}',
+                Value : soldToParty_CustomerNumber,
+                Label : '{i18n>Customernumber}',
             },
             {
                 $Type : 'UI.DataField',
-                Value : soldToParty_CustomerNumber,
-                Label : '{i18n>Customernumber}',
+                Value : soldToParty.Country,
+                Label : '{i18n>Country}',
             },
             {
                 $Type : 'UI.DataField',
@@ -153,13 +153,13 @@ annotate service.lunchyDocumentHeaders with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Value : shipToParty.Country,
-                Label : '{i18n>Country}',
+                Value : shipToParty_CustomerNumber,
+                Label : '{i18n>Customernumber}',
             },
             {
                 $Type : 'UI.DataField',
-                Value : shipToParty_CustomerNumber,
-                Label : '{i18n>Customernumber}',
+                Value : shipToParty.Country,
+                Label : '{i18n>Country}',
             },
             {
                 $Type : 'UI.DataField',
@@ -364,3 +364,15 @@ annotate service.lunchyDocumentItems with @(
         },
     },
 );
+annotate service.lunchyDocumentCustomers with {
+    Country @Common.FieldControl : #ReadOnly;
+    Name @Common.FieldControl : #ReadOnly;
+    PhoneNumber @Common.FieldControl : #ReadOnly;
+    PostalCode @Common.FieldControl : #ReadOnly;
+    Street @Common.FieldControl : #ReadOnly;
+};
+
+annotate service.lunchyDocumentMaterialTypes with {
+    MaterialTypeDescription @Common.FieldControl : #ReadOnly
+};
+

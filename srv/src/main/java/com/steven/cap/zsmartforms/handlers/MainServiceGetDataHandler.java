@@ -1,6 +1,7 @@
 package com.steven.cap.zsmartforms.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.w3c.dom.Element;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.NodeList;
 
+import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Upsert;
 import com.sap.cds.services.ServiceException;
 import com.sap.cds.services.cds.CdsReadEventContext;
@@ -25,6 +27,7 @@ import cds.gen.db.entity.item.Item;
 import cds.gen.db.entity.item.Item_;
 import cds.gen.db.entity.materialtype.MaterialType;
 import cds.gen.db.entity.materialtype.MaterialType_;
+import cds.gen.db.types.DocumentStatus;
 import cds.gen.mainservice.MainService_;
 
 @Component
@@ -40,6 +43,17 @@ public class MainServiceGetDataHandler implements EventHandler {
 
     @Before(event = CqnService.EVENT_READ)
     void getListReportData(CdsReadEventContext context) {
+
+        List<Header> allExistingHeaders = db.run(
+            Select.from(Header_.CDS_NAME)
+        ).listOf(Header.class);
+        
+        Map<String,Boolean> allExistingDocumentNumbers = new HashMap<>();
+
+        allExistingHeaders.stream()
+            .map(Header::getDocumentNumber)
+            .forEach(docNum -> allExistingDocumentNumbers.put(docNum, true));
+
         System.out.println("CQN data: " + context.getCqn().toString());
         try {
             Map<String,NodeList> dataMap = GetDataHandler.getDataFromDM4System();
@@ -48,6 +62,10 @@ public class MainServiceGetDataHandler implements EventHandler {
                 List<Header> listOfHeaders = new ArrayList<Header>();
                 for(int i = 0; i < headerList.getLength(); i++) {
                     Element header = (Element) headerList.item(i);
+                    if( allExistingDocumentNumbers.get(
+                        getTagValue(header, "VBELN") ) == true ) {
+                        continue;
+                    }
                     Header newHeader = CreateEntityHandler.createDocument(
                         getTagValue(header, "VBELN"),
                         getTagValue(header, "INCO1"),
@@ -59,6 +77,7 @@ public class MainServiceGetDataHandler implements EventHandler {
                         getTagValue(header, "KUNAG"),
                         getTagValue(header, "KUNNR")
                     );
+                    newHeader.setStatus(DocumentStatus.SYNCED);
                     listOfHeaders.add(newHeader);
                 }
                 db.run(Upsert.into(Header_.CDS_NAME).entries(listOfHeaders));

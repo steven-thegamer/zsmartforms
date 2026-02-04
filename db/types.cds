@@ -2,7 +2,7 @@ namespace db.types;
 
 type DocumentStatus : String(10) enum {
     Printed = 'Printed';
-    Emailed = 'Emailed';
+    Synced = 'Synced';
     Created = 'Created';
 }
 

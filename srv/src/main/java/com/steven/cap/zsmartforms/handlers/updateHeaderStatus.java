@@ -11,8 +11,8 @@ import cds.gen.db.types.DocumentStatus;
 
 public class updateHeaderStatus {
 
-    public static void updateStatusToEmailed(String documentNumber, PersistenceService db) {
-        db.run(Update.entity(Header_.CDS_NAME).data(Map.of(Header.STATUS,DocumentStatus.EMAILED)).byId(documentNumber));
+    public static void updateStatusToSynced(String documentNumber, PersistenceService db) {
+        db.run(Update.entity(Header_.CDS_NAME).data(Map.of(Header.STATUS,DocumentStatus.SYNCED)).byId(documentNumber));
     }
 
     public static void updateStatusToPrinted(String documentNumber, PersistenceService db) {

@@ -37,7 +37,7 @@ entity Header {
     statusCriticality : Integer =
     (case
         when status = #Printed then 2
-        when status = #Emailed then 3
+        when status = #Synced then 3
         else 0
     end) stored;
 }

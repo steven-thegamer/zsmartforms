@@ -15,6 +15,7 @@ import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
 
+import cds.gen.adminservice.AdminService;
 import cds.gen.adminservice.AdminService_;
 import cds.gen.adminservice.LunchyDocumentHeaders;
 import cds.gen.adminservice.LunchyDocumentHeadersCreateDraftContext;
@@ -26,7 +27,7 @@ import cds.gen.db.entity.header.Header_;
 @ServiceName(AdminService_.CDS_NAME)
 public class AdminCreateDraftHandler implements EventHandler {
 
-    @Qualifier("AdminService")
+    @Qualifier(AdminService_.CDS_NAME)
     private PersistenceService db;
     private DraftService adminService;
 
