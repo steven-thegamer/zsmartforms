@@ -16,7 +16,7 @@ entity Header {
     goodsIssueTime : Time;
     soldToParty : Association to customer.Customer;
     shipToParty : Association to customer.Customer;
-    status : types.DocumentStatus = #Created stored;
+    status : types.DocumentStatus default #Created;
     document : Association to document.Document;
     items : Composition of many item.Item on items.header = $self;
 

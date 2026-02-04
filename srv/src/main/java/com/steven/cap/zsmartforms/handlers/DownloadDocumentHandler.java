@@ -11,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.Result;
-import com.sap.cds.ql.Select;
-import com.sap.cds.ql.Update;
 import com.sap.cds.ql.Upsert;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.After;
@@ -23,18 +21,10 @@ import com.sap.cds.services.persistence.PersistenceService;
 
 import cds.gen.mainservice.LunchyDocumentHeadersDownloadDocumentContext;
 import cds.gen.mainservice.LunchyDocumentHeaders_;
+import cds.gen.mainservice.MainService;
 import cds.gen.mainservice.MainService_;
-import cds.gen.db.entity.document.Document;
-import cds.gen.db.entity.document.Document_;
-import cds.gen.db.entity.header.Header;
-import cds.gen.db.entity.header.Header_;
-import cds.gen.db.types.DocumentStatus;
+import cds.gen.mainservice.LunchyDocumentDocuments_;
 import cds.gen.mainservice.LunchyDocumentHeaders;
-
-import java.util.Base64;
-
-import javax.swing.JFileChooser;
-import com.steven.cap.zsmartforms.handlers.updateHeaderStatus;
 @Component
 @ServiceName(MainService_.CDS_NAME)
 public class DownloadDocumentHandler implements EventHandler {
@@ -46,13 +36,13 @@ public class DownloadDocumentHandler implements EventHandler {
         this.db = db;
     }
 
-    @Before(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME)
+    @Before(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void beforeDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
         // Example logic for handling the download document event
         System.out.println("Before downloading document");
     }
 
-    @On(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME)
+    @On(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void onDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
         // Example logic for handling the download document event
         
@@ -75,7 +65,7 @@ public class DownloadDocumentHandler implements EventHandler {
             e.printStackTrace();
         }
         
-        db.run(Upsert.into(Document_.CDS_NAME).entry(CreateEntityHandler.createDocument(selectedDocumentNumber, inputStream)));
+        db.run(Upsert.into(LunchyDocumentDocuments_.CDS_NAME).entry(CreateEntityHandler.createDocument(selectedDocumentNumber, inputStream)));
 
         // updateHeaderStatus.updateStatusToPrinted(selectedDocumentNumber, db);
 
@@ -83,7 +73,7 @@ public class DownloadDocumentHandler implements EventHandler {
 
     }
 
-    @After(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME)
+    @After(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void afterDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
         // Example logic for handling the download document event
         System.out.println("After downloading document for context: " + context.getCqn());

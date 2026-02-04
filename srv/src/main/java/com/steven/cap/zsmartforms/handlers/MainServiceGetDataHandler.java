@@ -1,5 +1,7 @@
 package com.steven.cap.zsmartforms.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Element;
@@ -43,6 +45,7 @@ public class MainServiceGetDataHandler implements EventHandler {
             Map<String,NodeList> dataMap = GetDataHandler.getDataFromDM4System();
             NodeList headerList = dataMap.getOrDefault("HEADER", null);
             if (headerList != null) {
+                List<Header> listOfHeaders = new ArrayList<Header>();
                 for(int i = 0; i < headerList.getLength(); i++) {
                     Element header = (Element) headerList.item(i);
                     Header newHeader = CreateEntityHandler.createDocument(
@@ -56,11 +59,13 @@ public class MainServiceGetDataHandler implements EventHandler {
                         getTagValue(header, "KUNAG"),
                         getTagValue(header, "KUNNR")
                     );
-                    db.run(Upsert.into(Header_.CDS_NAME).entry(newHeader));
+                    listOfHeaders.add(newHeader);
                 }
+                db.run(Upsert.into(Header_.CDS_NAME).entries(listOfHeaders));
             }
             NodeList itemLists = dataMap.getOrDefault("ITEMS", null);
             if (itemLists != null) {
+                List<Item> listOfItems = new ArrayList<Item>();
                 for(int i = 0; i < itemLists.getLength(); i++) {
                     Element item = (Element) itemLists.item(i);
                     Item newItem = CreateEntityHandler.createDocumentItems(
@@ -73,22 +78,25 @@ public class MainServiceGetDataHandler implements EventHandler {
                         getTagValue(item, "ARKTX"),
                         getTagValue(item, "MEINS")
                     );
-                    db.run(Upsert.into(Item_.CDS_NAME).entry(newItem));
+                    listOfItems.add(newItem);
                 }
+                db.run(Upsert.into(Item_.CDS_NAME).entries(listOfItems));
             }
             NodeList materialTypeLists = dataMap.getOrDefault("MATERIAL_TYPES", null);
             if (materialTypeLists != null) {
+                List<MaterialType> listOfMaterialTypes = new ArrayList<MaterialType>();
                 for(int i = 0; i < materialTypeLists.getLength(); i++) {
                     Element materialType = (Element) materialTypeLists.item(i);
                     MaterialType newMaterialType = CreateEntityHandler.createMaterialType(
                         getTagValue(materialType, "MTART"),
                         getTagValue(materialType, "MTBEZ")
                     );
-                    db.run(Upsert.into(MaterialType_.CDS_NAME).entry(newMaterialType));
                 }
+                db.run(Upsert.into(MaterialType_.CDS_NAME).entries(listOfMaterialTypes));
             }
             NodeList customerLists = dataMap.getOrDefault("CUSTOMERS", null);
             if (customerLists != null) {
+                List<Customer> listOfCustomers = new ArrayList<Customer>();
                 for(int i = 0; i < customerLists.getLength(); i++) {
                     Element customer = (Element) customerLists.item(i);
                     Customer newCustomer = CreateEntityHandler.createCustomer(
@@ -98,8 +106,9 @@ public class MainServiceGetDataHandler implements EventHandler {
                         getTagValue(customer, "PSTLZ"),
                         getTagValue(customer, "STRAS")
                     );
-                    db.run(Upsert.into(Customer_.CDS_NAME).entry(newCustomer));
+                    listOfCustomers.add(newCustomer);
                 }
+                db.run(Upsert.into(Customer_.CDS_NAME).entries(listOfCustomers));
             }
         } catch (Exception e) {
             throw new ServiceException("Error fetching data: " + e.getMessage());
@@ -113,5 +122,4 @@ public class MainServiceGetDataHandler implements EventHandler {
         }
         return list.item(0).getTextContent();
     }
-
 }
