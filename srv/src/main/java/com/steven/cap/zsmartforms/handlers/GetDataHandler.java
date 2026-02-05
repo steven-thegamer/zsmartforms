@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.sap.cds.services.ErrorStatuses;
 import com.sap.cds.services.ServiceException;
 
 public class GetDataHandler {
@@ -44,18 +45,18 @@ public class GetDataHandler {
             
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceException("Failed to fetch data from external service: " + e.getMessage());
+            throw new ServiceException(ErrorStatuses.BAD_REQUEST,"Failed to fetch data from external service: " + e.getMessage());
         }
         
         // Null check ensures response is not null before calling getStatusCode()
         if (response == null || !response.getStatusCode().is2xxSuccessful()) {
-            throw new ServiceException("Invalid response from external service");
+            throw new ServiceException(ErrorStatuses.BAD_REQUEST,"Invalid response from external service");
         }
 
         // response.getBody() could be null - add null check
         String resultOutput = response.getBody();
         if (resultOutput == null || resultOutput.isEmpty()) {
-            throw new ServiceException("Empty response body from external service");
+            throw new ServiceException(ErrorStatuses.BAD_REQUEST,"Empty response body from external service");
         }
         
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -103,17 +104,17 @@ public class GetDataHandler {
             
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceException("Failed to fetch data from external service: " + e.getMessage());
+            throw new ServiceException(ErrorStatuses.BAD_REQUEST,"Failed to fetch data from external service: " + e.getMessage());
         }
         
         if (response == null || !response.getStatusCode().is2xxSuccessful()) {
-            throw new ServiceException("Invalid response from external service");
+            throw new ServiceException(ErrorStatuses.BAD_REQUEST,"Invalid response from external service");
         }
 
         // response.getBody() could be null - add null check before encoding
         String body = response.getBody();
         if (body == null) {
-            throw new ServiceException("Empty response body from external service");
+            throw new ServiceException(ErrorStatuses.BAD_REQUEST,"Empty response body from external service");
         }
         
         byte[] responseBytes = body.getBytes(StandardCharsets.UTF_8);
