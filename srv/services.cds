@@ -25,10 +25,16 @@ service AdminService {
 
 service CustomerService {
     @odata.draft.enabled
-    entity lunchyDocumentCustomers as projection on index.Customers;
+    @Common.DraftRoot.NewAction: 'CustomerService.createDraft'
+    entity lunchyDocumentCustomers as projection on index.Customers actions {
+        action createDraft(in: many $self) returns lunchyDocumentCustomers;
+    };
 }
 
 service MaterialTypeService {
     @odata.draft.enabled
-    entity lunchyDocumentMaterialTypes as projection on index.MaterialTypes;
+    @Common.DraftRoot.NewAction: 'MaterialTypeService.createDraft'
+    entity lunchyDocumentMaterialTypes as projection on index.MaterialTypes actions {
+        action createDraft(in: many $self) returns lunchyDocumentMaterialTypes;
+    };
 }

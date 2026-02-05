@@ -26,7 +26,7 @@ public class AdminCreateDraftHandler implements EventHandler {
     private DraftService adminService;
 
     // Inject the PersistenceService to run queries
-    public AdminCreateDraftHandler(PersistenceService db, @Qualifier("AdminService") DraftService adminService) {
+    public AdminCreateDraftHandler(PersistenceService db, @Qualifier(AdminService_.CDS_NAME) DraftService adminService) {
         this.db = db;
         this.adminService = adminService;
     }
