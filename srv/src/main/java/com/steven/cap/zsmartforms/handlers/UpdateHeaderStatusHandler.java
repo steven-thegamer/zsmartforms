@@ -9,7 +9,7 @@ import cds.gen.db.entity.header.Header;
 import cds.gen.db.entity.header.Header_;
 import cds.gen.db.types.DocumentStatus;
 
-public class updateHeaderStatus {
+public class UpdateHeaderStatusHandler {
 
     public static void updateStatusToSynced(String documentNumber, PersistenceService db) {
         db.run(Update.entity(Header_.CDS_NAME).data(Map.of(Header.STATUS,DocumentStatus.SYNCED)).byId(documentNumber));

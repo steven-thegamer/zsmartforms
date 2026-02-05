@@ -38,8 +38,6 @@ public class DownloadDocumentHandler implements EventHandler {
 
     @Before(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void beforeDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
-        // Example logic for handling the download document event
-        System.out.println("Before downloading document");
         LunchyDocumentHeaders selectedDocument = db.run(context.getCqn()).single(LunchyDocumentHeaders.class);
         if(selectedDocument.getDocumentNumber().startsWith("CAP")){
             throw new ServiceException("This is a custom document made in SAP CAP! This doesn't exist in the SAP System!");
@@ -66,19 +64,14 @@ public class DownloadDocumentHandler implements EventHandler {
         db.run(Upsert.into(LunchyDocumentDocuments_.CDS_NAME)
         .entry(CreateEntityHandler.createDocument(selectedDocumentNumber, inputStream)));
         context.setCompleted();
-
     }
 
     @After(event = LunchyDocumentHeadersDownloadDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void afterDownloadDocument(LunchyDocumentHeadersDownloadDocumentContext context) {
-        System.out.println("After downloading document for context: " + context.getCqn());
-
         Result result = db.run(context.getCqn());
-
         result.forEach(t -> {
             String documentNumber = (String) t.get("documentNumber");
-            System.out.println("Updating status to PRINTED for document number: " + documentNumber);
-            updateHeaderStatus.updateStatusToPrinted(documentNumber, db);
+            UpdateHeaderStatusHandler.updateStatusToPrinted(documentNumber, db);
         });
     }
 
