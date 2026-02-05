@@ -27,7 +27,6 @@ import cds.gen.db.entity.item.Item;
 import cds.gen.db.entity.item.Item_;
 import cds.gen.db.entity.materialtype.MaterialType;
 import cds.gen.db.entity.materialtype.MaterialType_;
-import cds.gen.db.types.DocumentStatus;
 import cds.gen.mainservice.MainService_;
 
 /**
@@ -118,7 +117,6 @@ public class MainServiceGetDataHandler implements EventHandler {
                             getTagValue(header, "WAUHR"),
                             getTagValue(header, "KUNAG"),
                             getTagValue(header, "KUNNR"));
-                    newHeader.setStatus(DocumentStatus.SYNCED);
                     listOfHeaders.add(newHeader);
                 }
                 // Bulk insert new headers into database
