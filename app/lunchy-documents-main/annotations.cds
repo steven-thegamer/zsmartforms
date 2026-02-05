@@ -102,11 +102,6 @@ annotate service.lunchyDocumentHeaders with @(
             CriticalityRepresentation : #WithIcon,
         },
         {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'MainService.downloadDocument',
-            Label : '{i18n>DownloadDocument}',
-        },
-        {
             $Type : 'UI.DataField',
             Value : shipToParty_CustomerNumber,
             Label : '{i18n>ShipToParty}',

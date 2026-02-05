@@ -132,11 +132,6 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
-                  },
-                  "actions": {
-                    "DataFieldForAction::MainService.downloadDocument": {
-                      "enableOnSelect": "single"
-                    }
                   }
                 }
               }
@@ -172,6 +167,11 @@
             }
           }
         }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {}
       }
     }
   },

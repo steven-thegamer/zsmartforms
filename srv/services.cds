@@ -1,10 +1,7 @@
 using db.index from '../db/index';
 
 service MainService {
-    entity lunchyDocumentHeaders as projection on index.Headers
-    actions {
-        action downloadDocument();
-    };
+    entity lunchyDocumentHeaders as projection on index.Headers;
     entity lunchyDocumentItems as projection on index.Items;
     entity lunchyDocumentDocuments as projection on index.Documents;
     entity lunchyDocumentCustomers as projection on index.Customers;
