@@ -7,7 +7,7 @@
   "devDependencies": {
     "@sap/cds-dk": "^9.5.0"
   },
-    "cds": {
+  "cds": {
     "requires": {
       "db": {
         "kind": "sqlite",
@@ -20,6 +20,8 @@
   },
   "sapux": [
     "app/lunchy-documents-main",
-    "app/lunch-documents-admin"
+    "app/lunch-documents-admin",
+    "app/lunchy-documents-customer",
+    "app/lunchy-documents-materialtypes"
   ]
 }
