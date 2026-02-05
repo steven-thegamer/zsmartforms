@@ -134,6 +134,15 @@
                     "type": "ResponsiveTable",
                     "selectAll": false,
                     "selectionMode": "Single"
+                  },
+                  "actions": {
+                    "previewdocument": {
+                      "press": ".extension.lunchydocumentsmain.ext.controller.ListReportController.previewDocument",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Preview Document"
+                    }
                   }
                 }
               },
@@ -155,20 +164,6 @@
                     "route": "lunchyDocumentItemsObjectPage"
                   }
                 }
-              },
-              "content": {
-                "body": {
-                  "sections": {
-                    "DocumentPDFViewer": {
-                      "template": "lunchydocumentsmain.ext.fragment.DocumentPDFViewer",
-                      "position": {
-                        "placement": "After",
-                        "anchor": "i18nItems"
-                      },
-                      "title": "Document Viewer"
-                    }
-                  }
-                }
               }
             }
           }
@@ -182,6 +177,15 @@
               "editableHeaderContent": false,
               "contextPath": "/lunchyDocumentHeaders/items"
             }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "lunchydocumentsmain.ext.controller.ListReportController"
           }
         }
       }
