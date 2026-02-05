@@ -19,9 +19,6 @@
     }
   },
   "sapux": [
-    "app/lunchy-documents-main",
-    "app/lunch-documents-admin",
-    "app/lunchy-documents-customer",
-    "app/lunchy-documents-materialtypes"
+    "app/lunchy-documents-main"
   ]
 }

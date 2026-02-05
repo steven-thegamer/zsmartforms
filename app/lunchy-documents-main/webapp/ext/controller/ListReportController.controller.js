@@ -39,7 +39,6 @@ sap.ui.define([
 			const actionBinding = odataModel.bindContext(actionPath, selectedHeader);
 			await actionBinding.invoke();
             this._pdfViewer.setSource(`${sServiceUrl}lunchyDocumentDocuments('${objectifiedHeader.documentNumber}')/documentData`);
-            // this._pdfViewer.setSource("https://www.orimi.com/pdf-test.pdf");
 			this._pdfViewer.setTitle(`Lunchy Document - ${objectifiedHeader.documentNumber}`);
             this._pdfViewer.open();
             
