@@ -1,0 +1,52 @@
+package com.steven.cap.zsmartforms.handlers;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import com.sap.cds.ql.Update;
+import com.sap.cds.ql.Upsert;
+import com.sap.cds.services.cds.CdsReadEventContext;
+import com.sap.cds.services.cds.CqnService;
+import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.Before;
+import com.sap.cds.services.handler.annotations.ServiceName;
+import com.sap.cds.services.persistence.PersistenceService;
+
+import cds.gen.db.entity.header.Header;
+import cds.gen.db.entity.header.Header_;
+import cds.gen.mainservice.LunchyDocumentDocuments_;
+import cds.gen.mainservice.LunchyDocumentHeaders;
+import cds.gen.mainservice.LunchyDocumentHeaders_;
+import cds.gen.mainservice.MainService_;
+@Component
+@ServiceName(MainService_.CDS_NAME)
+public class PreviewDocumentHandler implements EventHandler {
+
+    private final PersistenceService db;
+
+    // Inject the PersistenceService to run queries
+    public PreviewDocumentHandler(PersistenceService db) {
+        this.db = db;
+    }
+
+    @Before(event = CqnService.EVENT_READ, entity = LunchyDocumentHeaders_.CDS_NAME)
+    public void beforePreviewDocument(CdsReadEventContext context) {
+        System.out.println("PreviewDocumentHandler triggered");
+        List<LunchyDocumentHeaders> selectedDocuments = db.run(context.getCqn()).listOf(LunchyDocumentHeaders.class);
+        if (selectedDocuments.size() == 1) {
+            LunchyDocumentHeaders selectedDocument = selectedDocuments.get(0);
+            if(selectedDocument.getDocumentHeaderDocumentNumber() == null){
+                String selectedDocumentNumber = selectedDocument.getDocumentNumber();
+                String documentData = GetDataHandler.getSmartForms(selectedDocumentNumber);
+                InputStream inputStream = new ByteArrayInputStream(documentData.getBytes(StandardCharsets.ISO_8859_1));
+                db.run(Upsert.into(LunchyDocumentDocuments_.CDS_NAME).entry(CreateEntityHandler.createDocument(selectedDocumentNumber, inputStream)));
+                db.run(Update.entity(Header_.CDS_NAME).data(Map.of(Header.DOCUMENT_HEADER_DOCUMENT_NUMBER, selectedDocumentNumber)).byId(selectedDocumentNumber));
+            }
+        }
+    }
+}

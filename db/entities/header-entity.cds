@@ -16,7 +16,6 @@ entity Header {
     goodsIssueTime : Time;
     soldToParty : Association to customer.Customer;
     shipToParty : Association to customer.Customer;
-    status : types.DocumentStatus default #Created;
     document : Association to document.Document;
     items : Composition of many item.Item on items.header = $self;
 
@@ -34,10 +33,4 @@ entity Header {
         else 2
     end) stored;
 
-    statusCriticality : Integer =
-    (case
-        when status = #Printed then 2
-        when status = #Synced then 3
-        else 0
-    end) stored;
 }

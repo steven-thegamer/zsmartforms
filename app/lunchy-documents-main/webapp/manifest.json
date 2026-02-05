@@ -131,10 +131,13 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
+                    "type": "ResponsiveTable",
+                    "selectAll": false,
+                    "selectionMode": "Single"
                   }
                 }
-              }
+              },
+              "initialLoad": "Auto"
             }
           }
         },
@@ -152,6 +155,20 @@
                     "route": "lunchyDocumentItemsObjectPage"
                   }
                 }
+              },
+              "content": {
+                "body": {
+                  "sections": {
+                    "DocumentPDFViewer": {
+                      "template": "lunchydocumentsmain.ext.fragment.DocumentPDFViewer",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "i18nItems"
+                      },
+                      "title": "Document Viewer"
+                    }
+                  }
+                }
               }
             }
           }
@@ -167,11 +184,6 @@
             }
           }
         }
-      }
-    },
-    "extends": {
-      "extensions": {
-        "sap.ui.controllerExtensions": {}
       }
     }
   },

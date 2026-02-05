@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:macro="sap.fe.macros">
+    <ScrollContainer id="_IDGenScrollContainer"
+        height="100%"
+        width="100%"
+        horizontal="true"
+        vertical="true">
+        <FlexBox id="_IDGenFlexBox" direction="Column" renderType="Div" class="sapUiSmallMargin">
+            <PDFViewer id="_IDGenPDFViewer" source="{document/documentData}" title="{document/name}" height="1200px">
+                <layoutData>
+                    <FlexItemData id="_IDGenFlexItemData" growFactor="1" />
+                </layoutData>
+            </PDFViewer>
+        </FlexBox>
+    </ScrollContainer>
+</core:FragmentDefinition>

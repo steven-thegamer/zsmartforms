@@ -96,13 +96,6 @@ annotate service.lunchyDocumentHeaders with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : status,
-            Label : '{i18n>Status}',
-            Criticality : statusCriticality,
-            CriticalityRepresentation : #WithIcon,
-        },
-        {
-            $Type : 'UI.DataField',
             Value : shipToParty_CustomerNumber,
             Label : '{i18n>ShipToParty}',
         },

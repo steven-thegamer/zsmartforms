@@ -17,6 +17,7 @@ public class UpdateHeaderStatusHandler {
 
     public static void updateStatusToPrinted(String documentNumber, PersistenceService db) {
         db.run(Update.entity(Header_.CDS_NAME).data(Map.of(Header.STATUS,DocumentStatus.PRINTED)).byId(documentNumber));
+        db.run(Update.entity(Header_.CDS_NAME).data(Map.of(Header.DOCUMENT_HEADER_DOCUMENT_NUMBER, documentNumber)).byId(documentNumber));
     }
 
 }
