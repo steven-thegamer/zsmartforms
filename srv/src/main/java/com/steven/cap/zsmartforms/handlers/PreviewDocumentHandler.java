@@ -36,13 +36,6 @@ public class PreviewDocumentHandler implements EventHandler {
         this.db = db;
     }
 
-    @Before(event = LunchyDocumentHeadersGenerateDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
-    public void beforePreviewDocument(LunchyDocumentHeadersGenerateDocumentContext context){
-        LunchyDocumentHeaders selectedDocument = db.run(context.getCqn()).single(LunchyDocumentHeaders.class);
-        if(selectedDocument.getDocumentNumber().startsWith("CAP"))
-            throw new ServiceException(ErrorStatuses.METHOD_NOT_ALLOWED,"Document is generated in SAP CAP, not in DM4 System!");
-    }
-
     @On(event = LunchyDocumentHeadersGenerateDocumentContext.CDS_NAME, entity = LunchyDocumentHeaders_.CDS_NAME)
     public void onPreviewDocument(LunchyDocumentHeadersGenerateDocumentContext context) {
         LunchyDocumentHeaders selectedDocument = db.run(context.getCqn()).single(LunchyDocumentHeaders.class);

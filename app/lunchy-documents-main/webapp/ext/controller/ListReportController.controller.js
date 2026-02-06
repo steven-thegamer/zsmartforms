@@ -1,8 +1,7 @@
 sap.ui.define([
 	'sap/ui/core/mvc/ControllerExtension',
-	'sap/m/PDFViewer',
-	'sap/m/MessageToast'
-], function (ControllerExtension, PDFViewer, MessageToast) {
+	'sap/m/PDFViewer'
+], function (ControllerExtension, PDFViewer) {
 	'use strict';
 
 	return ControllerExtension.extend('lunchydocumentsmain.ext.controller.ListReportController', {
@@ -31,14 +30,18 @@ sap.ui.define([
          */
         previewDocument: async function(oContext, aSelectedContexts) {
 			const odataModel = this.getView()?.getModel();
+			// Because the selection is only single, we can directly access the first element of the array
 			const selectedHeader = aSelectedContexts[0];
 			const objectifiedHeader = selectedHeader.getObject();
 			const sServiceUrl = odataModel.getServiceUrl();
             
 			const actionPath = "MainService.generateDocument(...)";
 			const actionBinding = odataModel.bindContext(actionPath, selectedHeader);
+			// Wait until it is done before proceeding, otherwise the PDFViewer will try to access the PDF before it is generated
 			await actionBinding.invoke();
+			// Set the source of the PDFViewer to the URL of the generated PDF document
             this._pdfViewer.setSource(`${sServiceUrl}lunchyDocumentDocuments('${objectifiedHeader.documentNumber}')/documentData`);
+			// Set the title of the popup to the document number
 			this._pdfViewer.setTitle(`Lunchy Document - ${objectifiedHeader.documentNumber}`);
             this._pdfViewer.open();
             
