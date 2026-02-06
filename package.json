@@ -19,6 +19,7 @@
     }
   },
   "sapux": [
-    "app/lunchy-documents-main"
+    "app/lunchy-documents-main",
+    "app/lunchy-documents-customers"
   ]
 }

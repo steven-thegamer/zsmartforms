@@ -14,6 +14,6 @@ service CustomersService {
     @odata.draft.enabled
     @Common.DraftRoot.NewAction: 'CustomersService.createDraft'
     entity Customers as projection on index.Customers actions {
-        action createDraft(in: many $self, customerNo: String) returns Customers;
+        action createDraft(in: many $self) returns Customers;
     };
 }
