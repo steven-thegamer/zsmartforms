@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Update;
 import com.sap.cds.ql.Upsert;
-import com.sap.cds.services.ErrorStatuses;
-import com.sap.cds.services.ServiceException;
 import com.sap.cds.services.handler.EventHandler;
-import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
