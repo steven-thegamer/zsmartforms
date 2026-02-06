@@ -1,5 +1,6 @@
 package com.steven.cap.zsmartforms.handlers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Insert;
@@ -26,7 +27,7 @@ public class CustomersServiceHandler implements EventHandler {
      * Constructor to inject the PersistenceService for database operations.
      * @param db PersistenceService instance for running queries
      */
-    public CustomersServiceHandler(PersistenceService db, DraftService customersService) {
+    public CustomersServiceHandler(PersistenceService db, @Qualifier(CustomersService_.CDS_NAME) DraftService customersService) {
         this.db = db;
         this.customersService = customersService;
     }
